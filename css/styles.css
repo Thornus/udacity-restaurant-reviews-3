@@ -17,7 +17,7 @@ ul, li {
 	font-size: 10pt;
 	color: #111;
 }
-label {
+label span {
 	display: none;
 }
 a {
