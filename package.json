@@ -1,0 +1,33 @@
+{
+  "name": "udacity-restaurant-reviews",
+  "version": "1.0.0",
+  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thornus/udacity-restaurant-reviews.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "~0.8.0",
+    "grunt-mkdir": "~0.1.2",
+    "imagemagick": "^0.1.3",
+    "grunt-responsive-images": "^0.1.6"
+  },
+  "author": "Thornus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Thornus/udacity-restaurant-reviews/issues"
+  },
+  "homepage": "https://github.com/Thornus/udacity-restaurant-reviews#readme",
+  "dependencies": {
+    "ember": "^1.0.3",
+    "ember-cli": "^3.1.2",
+    "idb": "^2.1.2",
+    "require": "^2.4.20"
+  }
+}
