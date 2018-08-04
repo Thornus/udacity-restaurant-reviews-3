@@ -23,10 +23,10 @@
     </nav>
 </header>
 
-<main id="maincontent" role="main">
+<main id="maincontent" class="add-review-main" role="main">
     <h2 id="add-review-title">Add review</h2>
     <section id="form-container">
-        <form>
+        <form id="review-form">
             Your name: <input type="text" name="name">
             <br><br>
 
@@ -43,12 +43,13 @@
             Comment: <textarea name="comment"></textarea>
             <br><br>
 
-            <button id="add-review-submit">Add</button>
+            <div id="add-review-submit" role="button">Add</div>
         </form>
     </section>
 </main>
 
 <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+<script type="text/javascript" src="js/add_review.js"></script>
 
 <footer id="footer">
     Copyright (c) 2018 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.

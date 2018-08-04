@@ -12,6 +12,11 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  static get DATABASE_URL_REVIEWS() {
+      const port = 1337; // Change this to your server port
+      return `http://localhost:${port}/reviews`;
+  }
+
   /**
    * Fetch all restaurants.
    */
@@ -21,7 +26,6 @@ class DBHelper {
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const restaurants = JSON.parse(xhr.responseText);
-		console.log('restaurants ', restaurants);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -167,8 +171,44 @@ class DBHelper {
     return marker;
   }
 
-  static postReview() {
-    console.log('post the review with db helper to the back-end');
+  static fetchReviewsByRestaurantId(callback, restaurantId) {
+      let xhr = new XMLHttpRequest();
+      xhr.open('GET', `${DBHelper.DATABASE_URL_REVIEWS}/?restaurant_id=${restaurantId}`);
+      xhr.onload = () => {
+          if (xhr.status === 200) { // Got a success response from server!
+              const reviews = JSON.parse(xhr.responseText);
+              console.log('reviews ', reviews);
+              callback(null, reviews);
+          } else { // Oops!. Got an error from server.
+              const error = (`Request failed. Returned status of ${xhr.status}`);
+              callback(error, null);
+          }
+      };
+      xhr.send();
+  }
+
+  static postReview(callback, formData) {
+      let xhr = new XMLHttpRequest();
+      xhr.addEventListener("error", function(error) {
+          callback(error, formData);
+      });
+
+      try {
+          xhr.open('POST', DBHelper.DATABASE_URL_REVIEWS, true);
+          xhr.onload = () => {
+              if (xhr.status === 201) { // Got a success response from server!
+                  const res = JSON.parse(xhr.responseText);
+                  callback();
+              } else { // Oops!. Got an error from server.
+                  const error = (`Request failed. Returned status of ${xhr.status}`);
+                  callback(error);
+              }
+          };
+
+          xhr.send(formData);
+      } catch(error) {
+        callback(error)
+      }
   }
 
 

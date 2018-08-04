@@ -1,4 +1,5 @@
 let restaurant;
+let reviews;
 let map;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -21,6 +22,31 @@ window.initMap = () => {
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
+
+  fetchReviews();
+}
+
+fetchReviews = () => {
+    if (self.reviews) { //  already fetched!
+        return;
+    }
+
+    const id = getParameterByName('id');
+
+    if (!id) { // no id found in URL
+        console.log('No restaurant id in URL');
+    } else {
+        DBHelper.fetchReviewsByRestaurantId((error, reviews) => {
+            self.reviews = reviews;
+            if (!reviews) {
+                console.error(error);
+                return;
+            }
+
+            // fill reviews
+            fillReviewsHTML();
+        }, id);
+    }
 }
 
 /**
@@ -75,8 +101,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
-  // fill reviews
-  fillReviewsHTML();
+
   createAddReviewButton(restaurant.id);
 }
 
@@ -105,7 +130,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -143,7 +168,7 @@ createReviewHTML = (review) => {
   reviewHeader.appendChild(name);
 
   const date = document.createElement('span');
-  date.innerHTML = review.date;
+  date.innerHTML = new Date(review.createdAt).toLocaleDateString();
   date.className = 'review-date';
   date.setAttribute('tabindex', '0');
   reviewHeader.appendChild(date);
@@ -159,9 +184,19 @@ createReviewHTML = (review) => {
   reviewContent.appendChild(rating);
 
   const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
-  comments.setAttribute('tabindex', '0');
-  reviewContent.appendChild(comments);
+
+  if(review.comments) {
+      let commentsString = '';
+      for (var i = 0; i <= review.comments.length; i++) {
+          if (review.comments[i]) {
+              commentsString += review.comments[i];
+          }
+      }
+      comments.innerHTML = commentsString;
+
+      comments.setAttribute('tabindex', '0');
+      reviewContent.appendChild(comments);
+  }
 
   return li;
 }
