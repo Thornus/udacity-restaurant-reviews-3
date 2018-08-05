@@ -56,12 +56,28 @@ module.exports = function(grunt) {
         }]
       },
     },
+
+    cwebp: {
+      dynamic: {
+          options: {
+              q: 50
+          },
+          files: [{
+              expand: true,
+              cwd: 'img/',
+              src: ['**/*.{png,jpg,gif}'],
+              dest: 'img/'
+          }]
+      }
+    }
+
   });
 
   grunt.loadNpmTasks('grunt-responsive-images');
+  grunt.loadNpmTasks('grunt-cwebp');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.registerTask('default', ['clean', 'mkdir', 'copy', 'responsive_images']);
+  grunt.registerTask('default', ['clean', 'mkdir', 'copy', 'responsive_images', 'cwebp']);
 
 };
